@@ -30,18 +30,20 @@ def pull_raw_data(data_query_string):
 
     # get env variables
     logger.info('retrieving DWH credentials')
-    # host_name = os.getenv('HOST_NAME')
-    # port_ = os.getenv('PORT')
-    # database_name = os.getenv('DATABASE_NAME')
-    # username_ = os.getenv('USERNAME')
-    # password_ = os.getenv('PASSWORD')
+    
     # load_dotenv(find_dotenv())
-    host_name = os.getenv('HOST_NAME')
-    port_ = os.getenv('PORT')
-    database_name = os.getenv('DATABASE_NAME')
+    host_name = 'redshift-prod.bboxx-dwh.co.uk'
+    port_ = '5439'
+    database_name = 'bboxx'
     username_ = ''
-    username_ = os.getenv('DBUSER')
-    password_ = os.getenv('Password')
+    username_ = 'annu'
+    password_ = 'AKIA654d894d14d5e$'
+#     host_name = os.getenv('HOST_NAME')
+#     port_ = os.getenv('PORT')
+#     database_name = os.getenv('DATABASE_NAME')
+#     username_ = ''
+#     username_ = os.getenv('DBUSER')
+#     password_ = os.getenv('Password')
 
     # create connection string
     dwh_credentials_str = "host={} port={} dbname={} user={} password={}" \
