@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build','-t','gcr.io/kubeflowpractise/Sms_model_rwanda','.']
+  args: ['build','-t','gcr.io/kubeflowpractise/sms_model_rwanda','.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push','gcr.io/kubeflowpractise/Sms_model_rwanda']
+  args: ['push','gcr.io/kubeflowpractise/sms_model_rwanda']
