@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+files:
+    - source: .
+      destination: /home/ec2-user/Sms-model
+permissions:
+  - object: /home/ec2-user
+    pattern: "Sms-model"
+    owner: ec2-user
+    group: ec2-user
+    type:
+      - directory
+  - object: /home/ec2-user/Sms-model
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+hooks:
+  BeforeInstall:
+    - location: DeployScripts/DockerClean.sh
+      runas: ec2-user
+  AfterInstall:
+    - location: DeployScripts/DockerPull.sh
+      runas: ec2-user
