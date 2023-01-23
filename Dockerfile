@@ -5,9 +5,9 @@ COPY requirements.txt requirements.txt
 RUN mkdir -p /app
 
 COPY ./ /app/
-RUN apt-get upgrade
-RUN apt-get update
-RUN pip install --upgrade pip
+RUN apt-get upgrade \
+&& apt-get update \
+&& pip install --upgrade pip
 RUN cd /app
 RUN cd /app \ && pip install -r requirements.txt
 RUN apt-get install libgomp1

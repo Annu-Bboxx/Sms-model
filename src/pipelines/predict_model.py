@@ -6,8 +6,8 @@ import boto3
 import importlib
 from datetime import datetime
 import click
-# os.chdir( r'/Users/annukajla/Documents/sms_modelling')
-print("current directory",os.getcwd())
+
+print("current directory", os.getcwd())
 sys.path.append(os.path.abspath(os.curdir))
 from dotenv import find_dotenv, load_dotenv
 from src.data.pull_raw_data import pull_raw_data
@@ -17,17 +17,16 @@ from src.utils.utils import find_production_version
 from src.utils.utils import init_logger
 from src.utils.utils import get_model_version_metadata
 from src.utils.utils import persist_versions
-
 from src.data.handle_missing_values import handle_missing_values
-# from src.data.handle_outliers import handle_outliers
 from src.features.build_features import build_features
 import psycopg2
+
 
 @click.command()
 @click.option('-ngu', required=True, help='ngu to extract raw data from')
 @click.option('-target', required=True, help='ngu to extract raw data from')
 @click.option('-amv', '--alternative_model_version', required=False, help='use alternative to production model version')
-def main(ngu,target, alternative_model_version=None):
+def main(ngu, target, alternative_model_version=None):
     # invoke pipeline logger
     main_logger = init_logger('model')
 
@@ -60,9 +59,8 @@ def main(ngu,target, alternative_model_version=None):
     print(features_list)
     # process raw data
     processed_prediction_data = raw_prediction_data \
-        .pipe(build_features, features_list=features_list, training=False)\
+        .pipe(build_features, features_list=features_list, training=False) \
         .pipe(handle_missing_values, features_list=features_list)
-
 
     # load pre-trained model
     classifier_file_path = os.path.join('models/{}'.format(model_version), 'trained_model')
@@ -87,26 +85,11 @@ def main(ngu,target, alternative_model_version=None):
                                       left_index=True,
                                       right_index=True)
 
-
     # store predictions
     versioning_name = persist_versions([model_version, ngu, prediction_date])
     filename = str(model_version) + "" + str(ngu) + "" + str(prediction_date) + ".csv"
-
-    # if target == 's3':
-    #     print("in s3")
-        # Save_data_to_S3(predictions_output, filename)
-    # if target == 'dwh':
-    #     Save_data_to_DWH_E(predictions_output_eligibile)
-    #     Save_data_to_DWH_NE(predictions_output_not_eligibile)
-    # if target == 'both':
-    #     Save_data_to_DWH_E(predictions_output_eligibile)
-    #     Save_data_to_DWH_NE(predictions_output_not_eligibile)
-    #     #Save_data_to_S3(predictions_output, filename)
-    # if target == 'none':
-    #     print('Not pushing data to any source')
     if target == 'local':
-         predictions_output.to_csv('data/predictions/{}'.format(filename))
-    #
+        predictions_output.to_csv('data/predictions/{}'.format(filename))
 
 
 if __name__ == '__main__':

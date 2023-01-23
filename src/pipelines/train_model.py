@@ -4,10 +4,6 @@
 # In[3]:
 import sys
 import os
-
-# os.chdir(r'/Users/annukajla/Downloads/Sms_model_rwanda')
-# sys.path.insert(1, '/Users/annukajla/Documents/sms_modelling/src/data')
-print("current directory", os.getcwd())
 sys.path.append(os.path.abspath(os.curdir))
 print("current directory", os.getcwd())
 import importlib
@@ -15,7 +11,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import fbeta_score
 from dotenv import find_dotenv, load_dotenv
 from src.data.pull_raw_data import pull_raw_data
-# from src.data.handle_outliers import handle_outliers
 from src.data.handle_missing_values import handle_missing_values
 from src.features.build_features import build_features
 from src.data.create_target_variable import create_target_variable
@@ -99,19 +94,13 @@ def main():
         X_test_cv = features.iloc[test_idx]
         y_train_cv = target.iloc[train_idx]
         y_test_cv = target.iloc[test_idx]
-        # X_resampled, y_resampled = os.fit_resample(X_train_cv, y_train_cv)
-        # ftwo_scorer = make_scorer(fbeta_score, beta=beta)
+
         # cv to tuning
         # tune hyperparameters
         tuned_hyperparameters = tune_model(mt, X_train_cv, y_train_cv, int(cv_combinations), inner_folds, beta, seed)
 
         classifier = train_model(mt, X_train_cv, y_train_cv, tuned_hyperparameters)
 
-        # outer_cv_params.append(random_cv.best_params_)
-        #     print(y_resampled.value_counts())
-        # train model with best params
-        # lgbm_binary_clf.set_params(**random_cv.best_params_)
-        # lgbm_binary_clf.fit(X_resampled, y_resampled)
 
         # predict on testset
         y_hat = classifier.predict(X_test_cv)
@@ -125,8 +114,6 @@ def main():
         y_test_pred = probabilities_to_binary(target_test_predicted_proba, ot)
         score = fbeta_score(y_test_cv, y_test_pred, beta=beta).round(2)
         outer_cv_scores.append(score)
-        # F1_score = f1_score(y_test_cv,y_hat,average='weighted')
-        # outer_cv_scores.append(F1_score)
         print(outer_cv_scores, ot)
 
         # aggregate outer cv results in order to assess variance of the training strategy
@@ -134,10 +121,7 @@ def main():
     outer_cv_aggregate_results['f-score_stdev'] = round(numpy.std(outer_cv_scores), 2)
     outer_cv_aggregate_results['optimal_threshold_mean'] = round(numpy.mean(outer_cv_ots), 2)
     outer_cv_aggregate_results['optimal_threshold_stdev'] = round(numpy.std(outer_cv_ots), 2)
-    # outer_cv_aggregate_results['good_prospect_frequency_mean'] = round(numpy.mean(outer_good_prospects_frequency),
-    #                                                                    2)
-    # outer_cv_aggregate_results['good_prospect_frequency_stdev'] = round(numpy.std(outer_good_prospects_frequency),
-    #                                                                     2)
+
     # tune hyperparameters
     main_logger.info('starting final cv..')
     tuned_hyperparameters = tune_model(mt, features, target, int(cv_combinations), inner_folds, beta, seed)
@@ -167,7 +151,7 @@ def main():
                  'hyperparameters': tuned_hyperparameters,
                  'features': features_list,
                  'train_query': train_query_file,
-                 # 'predict_query': config_parameters['predict_query']
+                 'predict_query': config_parameters['predict_query']
                  }
 
     # persist all the components of the model: model object, raw data, processed data, meta data etc.
