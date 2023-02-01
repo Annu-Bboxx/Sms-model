@@ -2,15 +2,15 @@ version: 0.0
 os: linux
 files:
     - source: .
-      destination: /home/ec2-user/Sms-model
+      destination: /home/ec2-user/sms-model
 permissions:
   - object: /home/ec2-user
-    pattern: "Sms-model"
+    pattern: "sms-model"
     owner: ec2-user
     group: ec2-user
     type:
       - directory
-  - object: /home/ec2-user/Sms-model
+  - object: /home/ec2-user/sms-model
     pattern: "**"
     owner: ec2-user
     group: ec2-user

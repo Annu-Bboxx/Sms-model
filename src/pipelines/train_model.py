@@ -4,6 +4,7 @@
 # In[3]:
 import sys
 import os
+os.chdir( r'/Users/annukajla/Downloads/sms-model')
 sys.path.append(os.path.abspath(os.curdir))
 print("current directory", os.getcwd())
 import importlib

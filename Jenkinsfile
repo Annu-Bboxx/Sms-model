@@ -94,8 +94,8 @@ echo "--------- Image pushed successfully ------------"
 if [[ "$GIT_BRANCH" == "$DEV_BRANCH" ]]; then
     set -euo pipefail
 
-    CODEDEPLOY_APPLICATION="Sms_model"
-    CODEDEPLOY_DEPLOYMENT_GROUP="Sms_model"
+    CODEDEPLOY_APPLICATION="sms-model"
+    CODEDEPLOY_DEPLOYMENT_GROUP="sms-model"
     CODEDEPLOY_DEPLOYMENT_CONFIG="CodeDeployDefault.OneAtATime"
     CODE_TAG="$BUILD_ID"
 

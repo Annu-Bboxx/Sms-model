@@ -11,7 +11,7 @@ import psycopg2
 import sys
 
 print(os.getcwd())
-sys.path.insert(0, '/Users/annukajla/Downloads/Sms_model_rwanda/src')
+# sys.path.insert(0, '/Users/annukajla/Downloads/sms-model/src')
 from src.utils.utils import get_logger
 
 
